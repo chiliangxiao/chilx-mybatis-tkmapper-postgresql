@@ -1,0 +1,52 @@
+server:
+  port: 8080
+
+
+spring:
+  #======================\u6570\u636E\u5E93\u914D\u7F6E============================
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?useSSL=false&stringtype=unspecified
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+
+
+#======================mybatis\u914D\u7F6E============================
+mybatis:
+  configuration:
+    # \u8FD4\u56DE\u4E3B\u952E
+    use-generated-keys: true
+    # \u5F00\u542F\u9A7C\u5CF0\u529F\u80FD
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.chilx.entity
+  # mapper\u7684\u4F4D\u7F6E
+  mapper-locations: classpath*:com/chilx/**/*.xml
+
+
+#======================mapper\u914D\u7F6E============================
+mapper:
+  mappers:
+    - com.chilx.common.BaseInfoMapper
+  # \u5BF9\u4E8E\u4E00\u822C\u7684getAllIfColumnNode\uFF0C\u662F\u5426\u5224\u65AD!=''\uFF0C\u9ED8\u8BA4\u4E0D\u5224\u65AD
+  not-empty: false
+  # \u83B7\u53D6\u4E3B\u952E\u81EA\u589E\u56DE\u5199SQL
+  IDENTITY: SELECT nextval({0})
+  # \u6307\u5B9A\u5E8F\u5217\u683C\u5F0F\u5316\u65B9\u5F0F nextval({0}) \u83B7\u53D6\u4E0B\u4E00\u4E2Aid
+  # \u5F53\u5B9E\u4F53\u7C7B\u6307\u5B9A\u5E8F\u5217\u662F\u5FC5\u987B\u5F00\u542F\u6B64\u914D\u7F6E
+  seq-format: nextval({0})
+  # \u5199\u5165\u4E4B\u524D
+  before: true
+  # \u662F\u5426\u53EA\u5904\u7406\u7B80\u5355\u7C7B\u578B,
+  #  true: \u53EA\u5904\u7406\u57FA\u672C\u6570\u636E\u7C7B\u578B
+  #  false: \u5904\u7406\u590D\u6742\u7C7B\u578B,\u5305\u542B\u81EA\u5B9A\u4E49handler
+  use-simple-type: false
+
+#======================\u5206\u9875\u914D\u7F6E============================
+pagehelper:
+  helperDialect: postgresql
+  # \u5206\u9875\u5408\u7406\u5316\u53C2\u6570\uFF0C\u9ED8\u8BA4\u503C\u4E3Afalse\u3002
+  # \u5F53\u8BE5\u53C2\u6570\u8BBE\u7F6E\u4E3A true \u65F6\uFF0CpageNum<=0 \u65F6\u4F1A\u67E5\u8BE2\u7B2C\u4E00\u9875\uFF0C pageNum>pages\uFF08\u8D85\u8FC7\u603B\u6570\u65F6\uFF09\uFF0C\u4F1A\u67E5\u8BE2\u6700\u540E\u4E00\u9875\u3002
+  # \u9ED8\u8BA4false \u65F6\uFF0C\u76F4\u63A5\u6839\u636E\u53C2\u6570\u8FDB\u884C\u67E5\u8BE2
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
